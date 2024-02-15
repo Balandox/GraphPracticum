@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="graphPracticum" />
         <module name="graphGeneration" />
+        <module name="graphAlgorithms" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="graphAlgorithms" options="-parameters" />
       <module name="graphGeneration" options="-parameters" />
       <module name="graphPracticum" options="-parameters" />
     </option>
