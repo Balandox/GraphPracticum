@@ -24,6 +24,7 @@
     <modules>
         <module>graphPracticum</module>
         <module>graphGeneration</module>
+        <module>graphAlgorithms</module>
     </modules>
 
 </project>
