@@ -10,7 +10,7 @@ public class GraphGenerationApplication {
 
 	public static void main(String[] args) {
 		GraphGenerator graphGenerator = new GraphGenerator();
-		graphGenerator.generateAdjacencyListGraph(8, true, 10);
+		graphGenerator.generateAdjacencyMatrixGraph(10, false, 10);
 		SpringApplication.run(GraphGenerationApplication.class, args);
 	}
 
