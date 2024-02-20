@@ -2,13 +2,13 @@ package org.suai.graphGeneration.service.implementations;
 
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
-import org.suai.graphGeneration.service.interfaces.IGraphGenerator;
+import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GraphGenerator implements IGraphGenerator {
+public class GraphGeneratorService implements IGraphGeneratorService {
 
     private final Random random = new Random();
 
@@ -45,7 +45,7 @@ public class GraphGenerator implements IGraphGenerator {
     public AdjacencyListGraph generateAdjacencyMatrixGraph(int amountOfVertex, boolean withWeights, int maxWeight) {
         // generation based on an adjacency list, but graph shows on screen like adjacency matrix
         AdjacencyListGraph resultGraph = this.generateAdjacencyListGraph(amountOfVertex, withWeights, maxWeight);
-        printAdjacencyMatrixGraph(resultGraph, maxWeight);
+        //printAdjacencyMatrixGraph(resultGraph, maxWeight);
         return resultGraph;
     }
 
@@ -68,7 +68,7 @@ public class GraphGenerator implements IGraphGenerator {
         }
     }
 
-    public void printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, Integer maxWeight){
+    public void printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, int maxWeight){
         List<List<GeneratedGraphElement>> graph = adjacencyListGraph.getAdjacencyList();
         int lengthOfElem = calculateMaxStringLengthOfMatrixElem(adjacencyListGraph.getAmountOfVertex(), maxWeight);
 

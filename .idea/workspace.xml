@@ -6,10 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="42937758-bba1-4866-b313-f99508e7c067" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/GraphAlgorithmsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/GraphGenerationApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/GraphGenerationApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/model/graphGenerated/AdjencencyMatrixGraph.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/implementations/GraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/implementations/GraphGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/interfaces/IGraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/interfaces/IGraphGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/model/baseGraph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/model/baseGraph/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/model/graphCalculation/BfsGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/model/graphGenerated/AdjacencyListGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/model/graphGenerated/AdjacencyListGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/implementations/GraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/implementations/GraphGeneratorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/interfaces/IGraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/service/interfaces/IGraphGeneratorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphPracticum/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +25,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -43,7 +50,10 @@
     "Application.GraphGenerationApplication.executor": "Run",
     "Maven.diploma [clean].executor": "Run",
     "Maven.diploma [install].executor": "Run",
+    "Maven.graphAlgorithms [clean].executor": "Run",
+    "Maven.graphAlgorithms [package].executor": "Run",
     "Maven.graphGeneration [clean].executor": "Run",
+    "Maven.graphGeneration [install].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -102,16 +112,5 @@
       <updated>1707856150474</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/GraphGenerationApplication.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

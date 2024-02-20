@@ -6,17 +6,19 @@ import java.util.List;
 
 public class AdjacencyListGraph extends Graph {
 
-    private Integer amountOfVertex;
+    protected Integer amountOfVertex;
 
-    private Integer amountOfEdges;
+    protected Integer amountOfEdges;
 
-    private List<List<GeneratedGraphElement>> adjacencyList;
+    protected List<List<GeneratedGraphElement>> adjacencyList;
 
     public AdjacencyListGraph(Integer amountOfVertex, Integer amountOfEdges, List<List<GeneratedGraphElement>> adjacencyList) {
         this.amountOfVertex = amountOfVertex;
         this.amountOfEdges = amountOfEdges;
         this.adjacencyList = adjacencyList;
     }
+
+    public AdjacencyListGraph(){super();}
 
     public Integer getAmountOfVertex() {
         return amountOfVertex;

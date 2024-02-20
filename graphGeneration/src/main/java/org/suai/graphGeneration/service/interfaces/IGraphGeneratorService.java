@@ -1,11 +1,8 @@
 package org.suai.graphGeneration.service.interfaces;
 
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
-import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 
-import java.util.List;
-
-public interface IGraphGenerator {
+public interface IGraphGeneratorService {
 
     public AdjacencyListGraph generateAdjacencyListGraph(int amountOfVertex, boolean withWeights, int maxWeight);
 
@@ -13,6 +10,6 @@ public interface IGraphGenerator {
 
     public void printAdjacencyListGraph(AdjacencyListGraph adjacencyListGraph);
 
-    public void printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, Integer maxWeight);
+    public void printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, int maxWeight);
 
 }
