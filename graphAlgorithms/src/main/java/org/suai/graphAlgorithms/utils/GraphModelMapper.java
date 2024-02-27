@@ -6,7 +6,7 @@ import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 public class GraphModelMapper {
 
     public static BfsGraph convertGeneratedGraphToBfsGraph(AdjacencyListGraph sourceGraph) {
-        return (BfsGraph) sourceGraph;
+        return new BfsGraph(sourceGraph);
     }
 
 }
