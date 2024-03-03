@@ -14,13 +14,14 @@ public class GraphCalculatorService implements IGraphBaseCalculatorService {
     IGraphCalculatorMapperService graphCalculatorMapperService;
 
     @Override
-    public void calculate(Graph graph) {
-        mapAndMakeCalculation(graph);
+    public String calculate(Graph graph) {
+        String solutionLogs = mapAndMakeCalculation(graph);
+        return solutionLogs;
     }
 
-    private void mapAndMakeCalculation(Graph graph){
+    private String mapAndMakeCalculation(Graph graph){
         IGraphCalculatorService calculatorService = graphCalculatorMapperService.getGraphCalculatorService(graph);
-        calculatorService.makeAlgorithmCalculation(graph);
+        return calculatorService.makeAlgorithmCalculation(graph);
     }
 
 }

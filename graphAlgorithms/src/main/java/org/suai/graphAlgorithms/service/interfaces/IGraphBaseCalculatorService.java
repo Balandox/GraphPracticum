@@ -4,5 +4,6 @@ import org.suai.graphGeneration.model.baseGraph.Graph;
 
 public interface IGraphBaseCalculatorService {
 
-    void calculate(Graph graph);
+    String calculate(Graph graph); // calculate algorithm and return steps of solution as String
+
 }

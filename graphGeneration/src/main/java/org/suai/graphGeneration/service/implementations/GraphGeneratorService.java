@@ -1,5 +1,6 @@
 package org.suai.graphGeneration.service.implementations;
 
+import org.springframework.stereotype.Service;
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Service
 public class GraphGeneratorService implements IGraphGeneratorService {
 
     private final Random random = new Random();
@@ -37,7 +39,6 @@ public class GraphGeneratorService implements IGraphGeneratorService {
             }
         }
         AdjacencyListGraph resultGraph = new AdjacencyListGraph(amountOfVertex, amountOfEdges, adjacencyList);
-        //printAdjacencyListGraph(resultGraph);
         return resultGraph;
     }
 
@@ -45,7 +46,6 @@ public class GraphGeneratorService implements IGraphGeneratorService {
     public AdjacencyListGraph generateAdjacencyMatrixGraph(int amountOfVertex, boolean withWeights, int maxWeight) {
         // generation based on an adjacency list, but graph shows on screen like adjacency matrix
         AdjacencyListGraph resultGraph = this.generateAdjacencyListGraph(amountOfVertex, withWeights, maxWeight);
-        //printAdjacencyMatrixGraph(resultGraph, maxWeight);
         return resultGraph;
     }
 
@@ -56,7 +56,7 @@ public class GraphGeneratorService implements IGraphGeneratorService {
     public void printAdjacencyListGraph(AdjacencyListGraph adjacencyListGraph){
         List<List<GeneratedGraphElement>> graph = adjacencyListGraph.getAdjacencyList();
         for (int i = 0; i < graph.size(); i++) {
-            System.out.print("Vertex " + i + " -> { ");
+            System.out.print("Вершина " + i + " -> { ");
             for (int j = 0; j < graph.get(i).size(); j++) {
                 GeneratedGraphElement current = graph.get(i).get(j);
                 if(j + 1 == graph.get(i).size())
