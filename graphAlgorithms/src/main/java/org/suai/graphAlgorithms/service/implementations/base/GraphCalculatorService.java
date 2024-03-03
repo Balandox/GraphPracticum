@@ -1,4 +1,4 @@
-package org.suai.graphAlgorithms.service.implementations;
+package org.suai.graphAlgorithms.service.implementations.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

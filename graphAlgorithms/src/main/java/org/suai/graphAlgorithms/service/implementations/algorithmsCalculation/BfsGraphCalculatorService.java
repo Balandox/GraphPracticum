@@ -1,7 +1,8 @@
-package org.suai.graphAlgorithms.service.implementations;
+package org.suai.graphAlgorithms.service.implementations.algorithmsCalculation;
 
 import org.springframework.stereotype.Service;
 import org.suai.graphAlgorithms.model.BfsGraph;
+import org.suai.graphAlgorithms.service.implementations.base.GraphCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
 import org.suai.graphGeneration.model.baseGraph.Graph;
 import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
@@ -9,12 +10,10 @@ import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 public class BfsGraphCalculatorService extends GraphCalculatorService implements IGraphCalculatorService {
 
-    //TODO обработать ситуацию с изолированными подграфами в одном общем графе
     private final Random random = new Random();
 
     @Override
