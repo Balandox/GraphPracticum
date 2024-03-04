@@ -30,13 +30,13 @@ public class PrimaGraphCalculatorService extends GraphCalculatorService implemen
 
     // MST - minimum spanning tree
     void primMST(PrimaGraph graph, StringBuilder trackLogger) {
-        // TODO понять как правильно трекать ход решения
         int amountOfVertex = graph.getAmountOfVertex();
         List<List<GeneratedGraphElement>> adj = graph.getAdjacencyList();
         int[] parent = new int[amountOfVertex];
         int[] key = new int[amountOfVertex];
         boolean[] inMST = new boolean[amountOfVertex];
         int iteration = 1;
+        String previousMSTState = "";
 
         // key value - минимальный вес ребра исходящий из данной вершины
         // parent[3] = 1
@@ -57,9 +57,11 @@ public class PrimaGraphCalculatorService extends GraphCalculatorService implemen
             int curVertex = cur.getVertex();               // в любую вершину, которая еще не находится в MST
             inMST[curVertex] = true;
 
-            if(!isAllVertexesInMST(inMST) || minHeap.isEmpty())
-                trackLogger.append("Шаг ").append(iteration).append(": Текущие вершины в MST - ").append(getCurrentMSTStateAsString(inMST)).append("\n");
-
+            String currentMSTState = getCurrentMSTStateAsString(inMST);
+            if(!previousMSTState.equals(currentMSTState)) {
+                trackLogger.append("Шаг ").append(iteration).append(": Текущие вершины в MST - ").append(currentMSTState).append("\n");
+                iteration++;
+            }
             for (GeneratedGraphElement v : adj.get(curVertex)) { // Проходимся по списку смежных вершин и для каждой из них
                 int neighborVertex = v.getVertex();
                 int weight = v.getWeight();
@@ -71,7 +73,7 @@ public class PrimaGraphCalculatorService extends GraphCalculatorService implemen
                     minHeap.add(new GeneratedGraphElement(neighborVertex, key[neighborVertex]));
                 }
             }
-            iteration++;
+            previousMSTState = currentMSTState;
         }
 
         addMSTResultToLogger(parent, trackLogger);

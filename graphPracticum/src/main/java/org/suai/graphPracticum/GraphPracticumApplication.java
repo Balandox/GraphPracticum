@@ -41,7 +41,7 @@ public class GraphPracticumApplication {
 		AdjacencyListGraph sourceGraph = null;
 		Boolean isGraphFullyConnected = false;
 		do {
-			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(15, true, 10);
+			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(40, true, 10);
 			// convertForChecking
 			BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
 			//checking that generated graph is fully connected
