@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="42937758-bba1-4866-b313-f99508e7c067" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/PrimaGraphCalculatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/PrimaGraphCalculatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/BfsGraphCalculatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/BfsGraphCalculatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/base/GraphCalculatorMapperService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/base/GraphCalculatorMapperService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/utils/GraphModelMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/utils/GraphModelMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/GraphPracticumApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/GraphPracticumApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
