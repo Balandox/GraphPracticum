@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.suai.graphAlgorithms.model.BfsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
 import org.suai.graphAlgorithms.model.PrimaGraph;
+import org.suai.graphAlgorithms.model.kruskal.KruskalGraph;
 import org.suai.graphAlgorithms.service.implementations.algorithmsCalculation.BfsGraphCalculatorService;
 import org.suai.graphAlgorithms.service.implementations.algorithmsCalculation.DfsGraphCalculatorService;
+import org.suai.graphAlgorithms.service.implementations.algorithmsCalculation.KruskalGraphCalculatorService;
 import org.suai.graphAlgorithms.service.implementations.algorithmsCalculation.PrimaGraphCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorMapperService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
@@ -24,6 +26,9 @@ public class GraphCalculatorMapperService implements IGraphCalculatorMapperServi
     @Autowired
     private DfsGraphCalculatorService dfsGraphCalculatorService;
 
+    @Autowired
+    private KruskalGraphCalculatorService kruskalGraphCalculatorService;
+
     @Override
     public IGraphCalculatorService getGraphCalculatorService(Graph graph) {
         IGraphCalculatorService graphCalculator = null;
@@ -33,6 +38,8 @@ public class GraphCalculatorMapperService implements IGraphCalculatorMapperServi
             graphCalculator = primaGraphCalculatorService;
         else if(graph instanceof DfsGraph)
             graphCalculator = dfsGraphCalculatorService;
+        else if(graph instanceof KruskalGraph)
+            graphCalculator = kruskalGraphCalculatorService;
 
         return graphCalculator;
     }
