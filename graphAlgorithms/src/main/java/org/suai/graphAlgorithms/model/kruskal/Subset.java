@@ -10,6 +10,10 @@ public class Subset {
         this.value = value;
     }
 
+    public Subset(){
+
+    }
+
     public int getParent() {
         return parent;
     }

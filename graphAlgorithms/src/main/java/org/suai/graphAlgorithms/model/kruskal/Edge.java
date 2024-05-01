@@ -18,6 +18,10 @@ public class Edge implements Comparable<Edge> {
         this.destination = destination;
     }
 
+    public Edge(){
+
+    }
+
     @Override
     public int compareTo(Edge edgeToCompare) {
         return this.weight - edgeToCompare.weight;

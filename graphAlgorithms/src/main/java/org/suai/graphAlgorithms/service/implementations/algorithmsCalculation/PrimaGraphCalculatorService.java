@@ -29,7 +29,7 @@ public class PrimaGraphCalculatorService extends GraphCalculatorService implemen
     }
 
     // MST - minimum spanning tree
-    void primMST(PrimaGraph graph, StringBuilder trackLogger) {
+    private void primMST(PrimaGraph graph, StringBuilder trackLogger) {
         int amountOfVertex = graph.getAmountOfVertex();
         List<List<GeneratedGraphElement>> adj = graph.getAdjacencyList();
         int[] parent = new int[amountOfVertex];
@@ -80,7 +80,7 @@ public class PrimaGraphCalculatorService extends GraphCalculatorService implemen
     }
 
     // Function to print the edges of the Minimum Spanning Tree
-    void addMSTResultToLogger(int[] parent, StringBuilder trackLogger) {
+    private void addMSTResultToLogger(int[] parent, StringBuilder trackLogger) {
         trackLogger.append("\nСписок ребер в MST:\n");
         for (int i = 1; i < parent.length; i++)
             trackLogger.append(parent[i]).append(" <-> ").append(i).append("\n");
