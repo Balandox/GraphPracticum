@@ -2,6 +2,7 @@ package org.suai.graphAlgorithms.utils;
 
 import org.suai.graphAlgorithms.model.BfsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
+import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
 import org.suai.graphAlgorithms.model.kruskal.Edge;
 import org.suai.graphAlgorithms.model.kruskal.KruskalGraph;
 import org.suai.graphAlgorithms.model.PrimaGraph;
@@ -25,12 +26,13 @@ public class GraphModelMapper {
         return new DfsGraph(sourceGraph);
     }
 
+    // convert AdjacencyList to Edges list representation
     public static KruskalGraph convertGeneratedGraphToKruskalGraph(AdjacencyListGraph sourceGraph){
         KruskalGraph kruskalGraph = new KruskalGraph(sourceGraph.getAmountOfVertex(), sourceGraph.getAmountOfEdges());
         List<Edge> edges = new ArrayList<>();
-        for(List<GeneratedGraphElement> vertex : sourceGraph.getAdjacencyList()){
-            for(GeneratedGraphElement neighbor : vertex){
-                Edge edge = new Edge(sourceGraph.getAdjacencyList().indexOf(vertex), neighbor.getVertex());
+        for(int srcVertex = 0; srcVertex < sourceGraph.getAdjacencyList().size(); srcVertex++){
+            for(GeneratedGraphElement neighbor : sourceGraph.getAdjacencyList().get(srcVertex)){
+                Edge edge = new Edge(srcVertex, neighbor.getVertex());
                 if(neighbor.getWeight() != null)
                     edge.setWeight(neighbor.getWeight());
                 if(!edges.contains(edge))
@@ -39,6 +41,24 @@ public class GraphModelMapper {
         }
         kruskalGraph.setEdges(edges);
         return kruskalGraph;
+    }
+
+    // convert AdjacencyList to Edges list representation
+    public static DijkstraGraph convertGeneratedGraphToDijkstraGraph(AdjacencyListGraph sourceGraph){
+        DijkstraGraph dijkstraGraph = new DijkstraGraph(sourceGraph.getAmountOfVertex(), sourceGraph.getAmountOfEdges());
+        List<Edge>[] graph = new ArrayList[dijkstraGraph.getAmountOfVertex()];
+
+        for(int i = 0; i < dijkstraGraph.getAmountOfVertex(); i++)
+            graph[i] = new ArrayList<>();
+
+        for(int srcVertex = 0; srcVertex < sourceGraph.getAdjacencyList().size(); srcVertex++){
+            for(GeneratedGraphElement neighbor : sourceGraph.getAdjacencyList().get(srcVertex)){
+                int dstVertex = neighbor.getVertex();
+                graph[srcVertex].add(new Edge(srcVertex, dstVertex, neighbor.getWeight()));
+            }
+        }
+        dijkstraGraph.setGraph(graph);
+        return dijkstraGraph;
     }
 
 

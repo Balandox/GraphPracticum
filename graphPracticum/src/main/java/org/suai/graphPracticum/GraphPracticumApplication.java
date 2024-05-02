@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.suai.graphAlgorithms.model.BfsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
 import org.suai.graphAlgorithms.model.PrimaGraph;
+import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
 import org.suai.graphAlgorithms.model.kruskal.KruskalGraph;
 import org.suai.graphAlgorithms.service.interfaces.IGraphBaseCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
@@ -43,7 +44,7 @@ public class GraphPracticumApplication {
 		AdjacencyListGraph sourceGraph = null;
 		Boolean isGraphFullyConnected = false;
 		do {
-			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(2000, true, 5);
+			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(6, true, 5);
 			// convertForChecking
 			BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
 			//checking that generated graph is fully connected
@@ -53,7 +54,7 @@ public class GraphPracticumApplication {
 
 		graphGeneratorService.printAdjacencyListGraph(sourceGraph);
 		// перевод в любой другой граф в зависимости от алгоритма
-		KruskalGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToKruskalGraph((sourceGraph));
+		DijkstraGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToDijkstraGraph(sourceGraph);
 		String solution = baseCalculatorService.calculate(graphForCalculation);
 		System.out.println(solution);
 	}
