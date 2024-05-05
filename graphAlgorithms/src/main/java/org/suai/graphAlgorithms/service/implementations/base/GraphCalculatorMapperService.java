@@ -3,6 +3,7 @@ package org.suai.graphAlgorithms.service.implementations.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.suai.graphAlgorithms.model.BfsGraph;
+import org.suai.graphAlgorithms.model.BiconnectedComponentsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
 import org.suai.graphAlgorithms.model.PrimaGraph;
 import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
@@ -30,6 +31,9 @@ public class GraphCalculatorMapperService implements IGraphCalculatorMapperServi
     @Autowired
     private DijkstraGraphCalculatorService dijkstraGraphCalculatorService;
 
+    @Autowired
+    private BiconnectedComponentsGraphCalculatorService biconnectedComponentsGraphCalculatorService;
+
     @Override
     public IGraphCalculatorService getGraphCalculatorService(Graph graph) {
         IGraphCalculatorService graphCalculator = null;
@@ -43,6 +47,8 @@ public class GraphCalculatorMapperService implements IGraphCalculatorMapperServi
             graphCalculator = kruskalGraphCalculatorService;
         else if(graph instanceof DijkstraGraph)
             graphCalculator = dijkstraGraphCalculatorService;
+        else if(graph instanceof BiconnectedComponentsGraph)
+            graphCalculator = biconnectedComponentsGraphCalculatorService;
 
         return graphCalculator;
     }

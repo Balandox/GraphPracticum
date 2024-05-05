@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.suai.graphAlgorithms.model.BfsGraph;
+import org.suai.graphAlgorithms.model.BiconnectedComponentsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
 import org.suai.graphAlgorithms.model.PrimaGraph;
 import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
@@ -54,7 +55,7 @@ public class GraphPracticumApplication {
 
 		graphGeneratorService.printAdjacencyListGraph(sourceGraph);
 		// перевод в любой другой граф в зависимости от алгоритма
-		DijkstraGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToDijkstraGraph(sourceGraph);
+		BiconnectedComponentsGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToBiconnectedComponentsGraph(sourceGraph);
 		String solution = baseCalculatorService.calculate(graphForCalculation);
 		System.out.println(solution);
 	}

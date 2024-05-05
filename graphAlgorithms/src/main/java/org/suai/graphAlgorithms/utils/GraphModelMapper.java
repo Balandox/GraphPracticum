@@ -1,6 +1,7 @@
 package org.suai.graphAlgorithms.utils;
 
 import org.suai.graphAlgorithms.model.BfsGraph;
+import org.suai.graphAlgorithms.model.BiconnectedComponentsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
 import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
 import org.suai.graphAlgorithms.model.kruskal.Edge;
@@ -59,6 +60,10 @@ public class GraphModelMapper {
         }
         dijkstraGraph.setGraph(graph);
         return dijkstraGraph;
+    }
+
+    public static BiconnectedComponentsGraph convertGeneratedGraphToBiconnectedComponentsGraph(AdjacencyListGraph sourceGraph){
+        return new BiconnectedComponentsGraph(sourceGraph);
     }
 
 
