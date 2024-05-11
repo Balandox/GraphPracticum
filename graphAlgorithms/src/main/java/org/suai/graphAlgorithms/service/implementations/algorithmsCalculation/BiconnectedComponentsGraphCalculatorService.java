@@ -68,12 +68,6 @@ public class BiconnectedComponentsGraphCalculatorService extends GraphCalculator
             }
         }
 
-/*        trackLogger.append("\nИтоговые значения массивов disc и low после DFS:");
-        trackLogger.append("\ndisc[]: ");
-        Arrays.stream(disc).forEach(value -> trackLogger.append(value).append(" "));
-        trackLogger.append("\nlow[]: ");
-        Arrays.stream(disc).forEach(value -> trackLogger.append(value).append(" "));*/
-
         trackLogger.append("\nТочки сочленения: ");
         articulationPoints.forEach(value -> trackLogger.append(value).append(" "));
         trackLogger.append("\n\nДвусвязные компоненты:\n").append(biconnectedComponents.toString());

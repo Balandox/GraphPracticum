@@ -1,8 +1,6 @@
 package org.suai.graphAlgorithms.service.implementations.algorithmsCalculation;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
-import org.suai.graphAlgorithms.model.BfsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
 import org.suai.graphAlgorithms.service.implementations.base.GraphCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;

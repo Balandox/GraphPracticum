@@ -14,11 +14,6 @@ public class GraphGenerationApplication {
 
 
 	public static void main(String[] args) {
-		IGraphGeneratorService graphGenerator = new GraphGeneratorService();
-		AdjacencyListGraph graph = graphGenerator.generateAdjacencyListGraph(5, false, 0);
-		graphGenerator.printAdjacencyListGraph(graph);
-		Queue<Integer> queue = new LinkedList<>();
-
 		SpringApplication.run(GraphGenerationApplication.class, args);
 	}
 

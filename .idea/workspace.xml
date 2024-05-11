@@ -6,8 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="42937758-bba1-4866-b313-f99508e7c067" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/BiconnectedComponentsGraphCalculatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/BiconnectedComponentsGraphCalculatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/DfsGraphCalculatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphAlgorithms/src/main/java/org/suai/graphAlgorithms/service/implementations/algorithmsCalculation/DfsGraphCalculatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/GraphGenerationApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/java/org/suai/graphGeneration/GraphGenerationApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphGeneration/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/graphGeneration/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphPracticum/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/GraphPracticumApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/GraphPracticumApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,8 +48,10 @@
   "keyToString": {
     "Application.GraphGenerationApplication.executor": "Run",
     "Application.GraphPracticumApplication.executor": "Run",
+    "JAR Application.graphPracticum-0.0.1-SNAPSHOT.jar.executor": "Run",
     "Maven.diploma [clean].executor": "Run",
     "Maven.diploma [install].executor": "Run",
+    "Maven.diploma [package].executor": "Run",
     "Maven.graphAlgorithms [clean].executor": "Run",
     "Maven.graphAlgorithms [package].executor": "Run",
     "Maven.graphGeneration [clean].executor": "Run",
@@ -51,13 +60,14 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/JavaProjects/Diploma",
+    "last_opened_file_path": "D:/JavaProjects/OnlineEventPoster",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.GraphPracticumApplication">
+  <component name="RunManager" selected="JAR Application.graphPracticum-0.0.1-SNAPSHOT.jar">
     <configuration name="GraphGenerationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.suai.graphGeneration.GraphGenerationApplication" />
       <module name="graphGeneration" />
@@ -84,6 +94,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="graphPracticum-0.0.1-SNAPSHOT.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/graphPracticum/target/graphPracticum-0.0.1-SNAPSHOT.jar" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Diploma" />
       <method v="2">
@@ -99,6 +113,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JAR Application.graphPracticum-0.0.1-SNAPSHOT.jar" />
         <item itemvalue="Application.GraphPracticumApplication" />
         <item itemvalue="Application.GraphGenerationApplication" />
       </list>
