@@ -41,7 +41,7 @@ public class GraphPracticumApplication {
 	private IGraphCalculatorService calculatorService;
 
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+		System.setProperty("file.encoding", "UTF-8");
 		SpringApplication.run(GraphPracticumApplication.class, args);
 	}
 
