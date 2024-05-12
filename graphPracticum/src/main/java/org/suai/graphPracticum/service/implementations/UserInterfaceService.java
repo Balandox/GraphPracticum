@@ -2,6 +2,7 @@ package org.suai.graphPracticum.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.suai.graphAlgorithms.model.BfsGraph;
 import org.suai.graphAlgorithms.model.DfsGraph;
@@ -12,6 +13,10 @@ import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 import org.suai.graphPracticum.service.interfaces.IUserInterfaceService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 @Service
@@ -30,32 +35,14 @@ public class UserInterfaceService implements IUserInterfaceService {
 
     @Override
     public void showGreeting() {
-
-        AdjacencyListGraph sourceGraph = null;
-		Boolean isGraphFullyConnected = false;
-		do {
-			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(6, false, 0);
-			// convertForChecking
-			BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
-			//checking that generated graph is fully connected
-			isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
-		}
-		while (!isGraphFullyConnected);
-
-		graphGeneratorService.printAdjacencyListGraph(sourceGraph);
-		// перевод в любой другой граф в зависимости от алгоритма
-		DfsGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToDfsGraph(sourceGraph);
-		String solution = baseCalculatorService.calculate(graphForCalculation);
-		System.out.println(solution);
-
-        System.out.println("Привет, Семен!");
-        Scanner scanner = new Scanner(System.in);
-
-        for(;;){
-            if(scanner.nextInt() == 0)
-                break;
+        try (InputStream inputStream = new ClassPathResource("interface/greeting.txt").getInputStream();
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = reader.readLine()) != null)
+                System.out.println(line);
+        } catch (IOException e) {
+            System.err.println("Ошибка при чтении файла: " + e.getMessage());
         }
-        System.out.println("\n\n\n\n\n\n\n\n");
     }
 
 }

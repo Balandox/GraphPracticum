@@ -19,6 +19,10 @@ import org.suai.graphAlgorithms.utils.GraphModelMapper;
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 @SpringBootApplication
 @ComponentScan({"org.suai.graphAlgorithms", "org.suai.graphGeneration",
 		"org.suai.graphPracticum"})
@@ -36,7 +40,8 @@ public class GraphPracticumApplication {
 	@Qualifier("bfsGraphCalculatorService")
 	private IGraphCalculatorService calculatorService;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
 		SpringApplication.run(GraphPracticumApplication.class, args);
 	}
 
