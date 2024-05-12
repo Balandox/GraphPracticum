@@ -26,7 +26,7 @@ public class CommandHandlerService implements ICommandHandlerService {
 
     private static final String FILES_SHOW_COMMAND = "files -show";
 
-    private static final String FILES_ADD_COMMAND = "files -addgg";
+    private static final String FILES_ADD_COMMAND = "files -add";
 
     private static final String HELP_COMMAND = "help";
 
