@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42937758-bba1-4866-b313-f99508e7c067" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/ApplicationRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/ApplicationRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/GraphPracticumApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/GraphPracticumApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/service/implementations/UserInterfaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/service/implementations/UserInterfaceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/service/interfaces/IUserInterfaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/service/interfaces/IUserInterfaceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/resources/interface/commands.txt" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/resources/interface/commands.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/service/implementations/CommandHandlerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/graphPracticum/src/main/java/org/suai/graphPracticum/service/implementations/CommandHandlerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
