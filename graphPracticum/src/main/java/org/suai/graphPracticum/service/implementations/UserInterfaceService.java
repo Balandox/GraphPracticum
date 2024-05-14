@@ -46,6 +46,15 @@ public class UserInterfaceService implements IUserInterfaceService {
         show("interface/greeting.txt");
     }
 
+    public void showGraphMenu(){
+        show("interface/graphMenu.txt");
+    }
+
+    @Override
+    public void showGraphRepresentationOptions() {
+        show("interface/graphRepresentationOptions.txt");
+    }
+
     @Override
     public void showCommands(){
         show("interface/commands.txt");

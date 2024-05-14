@@ -40,33 +40,8 @@ public class GraphPracticumApplication {
 	@Qualifier("bfsGraphCalculatorService")
 	private IGraphCalculatorService calculatorService;
 
-	public static void main(String[] args) throws UnsupportedEncodingException {
+	public static void main(String[] args) {
 		System.setProperty("file.encoding", "UTF-8");
 		SpringApplication.run(GraphPracticumApplication.class, args);
 	}
-
-
-
-//	@PostConstruct
-//	public void init(){
-//		AdjacencyListGraph sourceGraph = null;
-//		Boolean isGraphFullyConnected = false;
-//		do {
-//			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(6, false, 0);
-//			// convertForChecking
-//			BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
-//			//checking that generated graph is fully connected
-//			isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
-//		}
-//		while (!isGraphFullyConnected);
-//
-//		graphGeneratorService.printAdjacencyListGraph(sourceGraph);
-//		// перевод в любой другой граф в зависимости от алгоритма
-//		DfsGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToDfsGraph(sourceGraph);
-//		String solution = baseCalculatorService.calculate(graphForCalculation);
-//		System.out.println(solution);
-//	}
-
-
-
 }

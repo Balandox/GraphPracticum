@@ -20,6 +20,6 @@ public class ApplicationRunner {
     public void startApplication() {
         userInterfaceService.showGreeting();
         userInterfaceService.showCommands();
-        commandHandlerService.start();
+        commandHandlerService.handle();
     }
 }

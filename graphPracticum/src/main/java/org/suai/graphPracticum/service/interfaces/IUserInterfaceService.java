@@ -14,4 +14,8 @@ public interface IUserInterfaceService {
 
     void showFilesPaths(List<String> filePaths);
 
+    void showGraphMenu();
+
+    void showGraphRepresentationOptions();
+
 }
