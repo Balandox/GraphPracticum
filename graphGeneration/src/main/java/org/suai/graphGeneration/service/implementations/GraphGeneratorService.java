@@ -53,35 +53,39 @@ public class GraphGeneratorService implements IGraphGeneratorService {
         return numOfVertices * ((numOfVertices - 1) / 2);
     }
 
-    public void printAdjacencyListGraph(AdjacencyListGraph adjacencyListGraph){
+    public String printAdjacencyListGraph(AdjacencyListGraph adjacencyListGraph){
+        StringBuilder sb = new StringBuilder();
         List<List<GeneratedGraphElement>> graph = adjacencyListGraph.getAdjacencyList();
         for (int i = 0; i < graph.size(); i++) {
-            System.out.print("Вершина " + i + " -> { ");
+            sb.append("Вершина ").append(i).append(" -> { ");
             for (int j = 0; j < graph.get(i).size(); j++) {
                 GeneratedGraphElement current = graph.get(i).get(j);
                 if(j + 1 == graph.get(i).size())
-                    System.out.print(current);
+                    sb.append(current);
                 else
-                    System.out.print(current + ", ");
+                    sb.append(current).append(", ");
             }
-            System.out.println(" }");
+            sb.append(" }").append("\n");
         }
+        return sb.toString();
     }
 
-    public void printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, int maxWeight){
+    public String printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, int maxWeight){
+        StringBuilder sb = new StringBuilder();
         List<List<GeneratedGraphElement>> graph = adjacencyListGraph.getAdjacencyList();
         int lengthOfElem = calculateMaxStringLengthOfMatrixElem(adjacencyListGraph.getAmountOfVertex(), maxWeight);
 
         for(int i = 0; i < graph.size(); i++)
-            printMatrixRow(graph.get(i), adjacencyListGraph.getAmountOfVertex(), lengthOfElem, i);
+            printMatrixRow(graph.get(i), adjacencyListGraph.getAmountOfVertex(), lengthOfElem, i, sb);
+        return sb.toString();
     }
 
-    private void printMatrixRow(List<GeneratedGraphElement> row, int amountOfVertex, int maxLengthOfElem, int currentRow){
+    private void printMatrixRow(List<GeneratedGraphElement> row, int amountOfVertex, int maxLengthOfElem, int currentRow, StringBuilder sb){
         String format = "%" + maxLengthOfElem + "s\t";
         if(row.isEmpty()){
             for(int i = 0; i < amountOfVertex; i++)
-                System.out.printf(format, "0");
-            System.out.println();
+                sb.append(String.format(format, "0"));
+            sb.append("\n");
             return;
         }
 
@@ -91,14 +95,14 @@ public class GraphGeneratorService implements IGraphGeneratorService {
             if(tmpIndex != -1){
                 GeneratedGraphElement elemToPrint = row.get(tmpIndex);
                 if(elemToPrint.getWeight() != null)
-                    System.out.printf(format, "1(" + elemToPrint.getWeight() + ")");
+                    sb.append(String.format(format, "1(" + elemToPrint.getWeight() + ")"));
                 else
-                    System.out.printf(format, "1");
+                    sb.append(String.format(format, "1"));
             }
             else
-                System.out.printf(format, "0");
+                sb.append(String.format(format, "0"));
         }
-        System.out.println();
+        sb.append("\n");
     }
 
     private int calculateMaxStringLengthOfMatrixElem(int amountOfVertex, int maxWeight){

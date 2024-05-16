@@ -8,13 +8,12 @@ import org.suai.graphAlgorithms.service.interfaces.IGraphBaseCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
 import org.suai.graphAlgorithms.utils.GraphModelMapper;
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
+import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 import org.suai.graphPracticum.service.interfaces.IGraphCommandHandlerService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class GraphCommandHandlerService implements IGraphCommandHandlerService {
@@ -34,13 +33,14 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     private Integer amountOfVariants;
 
-    private Integer algorithmNumber;
-
-    private Integer graphRepresentationNumber;
+    private List<Integer> algorithmNumbers;
 
     private Integer amountOfVertex;
 
-    private Integer maxWeight;
+    private final Random random = new Random();
+
+    private final static Integer MAX_WEIGHT = 10;
+
 
     private Map<Integer, String> algNumberToAlgNameMap = Map.of(
             1, "Поиск в ширину (BFS)",
@@ -73,68 +73,62 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     @Override
     public void handle() {
-        handleVertexAndWeightInput(algorithmNumber);
-
         List<AdjacencyListGraph> generatedGraphs = new ArrayList<>();
+        List<String> graphsVariantsForFile = new ArrayList<>();
+        List<Integer> graphRepresentationPerAlg = new ArrayList<>(); // 1 - adjacencyList; 2 - adjacencyMatrix
         Boolean isGraphFullyConnected;
         for(int i = 0; i < amountOfVariants; i++) {
-            AdjacencyListGraph sourceGraph;
-            do {
-                sourceGraph = graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, maxWeight != null, maxWeight != null ? maxWeight : 0);
-                // convertForChecking
-                BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
-                //checking that generated graph is fully connected
-                isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
-            }
-            while (!isGraphFullyConnected);
-            generatedGraphs.add(sourceGraph);
-        }
-        for (AdjacencyListGraph graph : generatedGraphs){
-            if(graphRepresentationNumber == 1)
-                graphGeneratorService.printAdjacencyMatrixGraph(graph, maxWeight != null ? maxWeight : 0);
-            else
-                graphGeneratorService.printAdjacencyListGraph(graph);
-            System.out.println();
-        }
-    }
-
-    private void handleVertexAndWeightInput(Integer algorithmNumber){
-        System.out.println("Отлично! Ваш выбор: " + algNumberToAlgNameMap.get(algorithmNumber));
-        System.out.print("\nТеперь укажите количество вершин графа: ");
-        amountOfVertex = getUserIntegerInput();
-        if(algorithmNumber == 3 || algorithmNumber == 4 || algorithmNumber == 5){
-            System.out.print("\nТеперь укажите максимально возможный вес ребра: ");
-            maxWeight = getUserIntegerInput();
-        }
-    }
-
-    private Integer getUserIntegerInput(){
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        Integer userInputAsInt;
-        while(true){
-            if(userInput.matches("-?\\d+")){
-                userInputAsInt = Integer.parseInt(userInput);
-                if(userInputAsInt < 1){
-                    System.out.print("Необходимо ввести значение больше единицы. Попробуйте еще раз: ");
-                    userInput = scanner.nextLine();
+            for(Integer algNum : algorithmNumbers) {
+                boolean withWeight = Stream.of(3, 4, 5).anyMatch(cur -> (int) algNum == cur);
+                AdjacencyListGraph sourceGraph;
+                do {
+                    sourceGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
+                            graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
+                    // convertForChecking
+                    BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
+                    //checking that generated graph is fully connected
+                    isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
                 }
-                else
-                    break;
+                while (!isGraphFullyConnected);
+                addGraphToVariant(sourceGraph, generatedGraphs, graphsVariantsForFile, graphRepresentationPerAlg, withWeight);
             }
-            else {
-                System.out.print("Необходимо ввести целое число. Попробуйте еще раз: ");
-                userInput = scanner.nextLine();
+            generatedGraphs.clear();
+            graphsVariantsForFile.clear();
+            graphRepresentationPerAlg.clear();
+        }
+    }
+
+    private void addGraphToVariant(AdjacencyListGraph sourceGraph, List<AdjacencyListGraph> generatedGraphs,
+                                   List<String> graphsVariantsForFile, List<Integer> graphRepresentationPerAlg, boolean withWeight){
+        int randomGraphRepresentation = random.nextInt(2) + 1;
+        if(graphRepresentationPerAlg.size() == 2){
+            int firstRep = graphRepresentationPerAlg.get(0);
+            int secondRep = graphRepresentationPerAlg.get(1);
+            if(firstRep == secondRep && secondRep == randomGraphRepresentation){ // generated all the same representation, need to change one to another
+                randomGraphRepresentation = randomGraphRepresentation == 1 ? 2 : 1;
             }
         }
-        return userInputAsInt;
+
+        String graphVariant;
+        if(randomGraphRepresentation == 1)
+            graphVariant = graphGeneratorService.printAdjacencyListGraph(sourceGraph);
+        else
+            graphVariant = withWeight ? graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, MAX_WEIGHT) : graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, 0);
+
+        graphsVariantsForFile.add(graphVariant);
+        generatedGraphs.add(sourceGraph);
+        graphRepresentationPerAlg.add(randomGraphRepresentation);
+    }
+
+    private void printVariantToFile(List<String> graphVariantsForFile){
+
     }
 
     @Override
-    public void updateState(List<String> filePaths, Integer amountOfVariants, Integer algorithmNumber, Integer graphRepresentationNumber) {
+    public void updateState(List<String> filePaths, Integer amountOfVariants, List<Integer> algorithmNumbers, Integer amountOfVertex) {
         this.filePaths = filePaths;
         this.amountOfVariants = amountOfVariants;
-        this.algorithmNumber = algorithmNumber;
-        this.graphRepresentationNumber = graphRepresentationNumber;
+        this.algorithmNumbers = algorithmNumbers;
+        this.amountOfVertex = amountOfVertex;
     }
 }

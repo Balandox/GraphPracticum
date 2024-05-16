@@ -13,9 +13,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CommandHandlerService implements ICommandHandlerService {
@@ -27,6 +26,15 @@ public class CommandHandlerService implements ICommandHandlerService {
     private IGraphCommandHandlerService graphCommandHandlerService; // отвечает за обработку команд с графами
 
     private List<String> filePaths = new ArrayList<>();
+
+    private Map<Integer, String> algNumberToAlgNameMap = Map.of(
+            1, "Поиск в ширину (BFS)",
+            2, "Поиск в глубину (DFS)",
+            3, "Алгоритм Прима (Нахождение минимального остовного дерева)",
+            4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
+            5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
+            6, "Алгоритм поиска двусвязных комонент"
+    );
 
     private static final String GENERATE_COMMAND = "generate";
 
@@ -56,12 +64,18 @@ public class CommandHandlerService implements ICommandHandlerService {
                     }
                     userInterfaceService.showFilesPaths(filePaths);
                     Integer amountOfVariants = handleAmountOfVariantsInput(scanner);
-                    userInterfaceService.showGraphRepresentationOptions();
-                    Integer graphRepresentationNumber = handleGraphRepresentationInput(scanner);
                     userInterfaceService.showGraphMenu();
-                    Integer algorithmNumber = handleAlgorithmNumberInput(scanner);
+                    List<Integer> algorithmNumbers = handleAlgorithmNumberInput(scanner);
+                    System.out.print("\nОтлично! Ваш выбор: ");
+                    for(int i = 0; i < algorithmNumbers.size(); i++){
+                        if(i + 1 == algorithmNumbers.size())
+                            System.out.print(algNumberToAlgNameMap.get(algorithmNumbers.get(i)) + ".");
+                        else
+                            System.out.print(algNumberToAlgNameMap.get(algorithmNumbers.get(i)) + ", ");
+                    }
+                    Integer amountOfVertex = handleVertexInput(scanner);
 
-                    graphCommandHandlerService.updateState(filePaths, amountOfVariants, algorithmNumber, graphRepresentationNumber);
+                    graphCommandHandlerService.updateState(filePaths, amountOfVariants, algorithmNumbers, amountOfVertex);
                     graphCommandHandlerService.handle();
                     break;
                 case FILES_ADD_COMMAND:
@@ -104,7 +118,29 @@ public class CommandHandlerService implements ICommandHandlerService {
         }
     }
 
-    private Integer handleGraphRepresentationInput(Scanner scanner){
+    private Integer handleVertexInput(Scanner scanner){
+        System.out.print("\nТеперь укажите количество вершин графа: ");
+        String amountOfVertex = scanner.nextLine();
+        Integer amountOfVertexAsInt;
+        while(true){
+            if(amountOfVertex.matches("-?\\d+")){
+                amountOfVertexAsInt = Integer.parseInt(amountOfVertex);
+                if(amountOfVertexAsInt < 1){
+                    System.out.print("Необходимо ввести значение больше единицы. Попробуйте еще раз: ");
+                    amountOfVertex = scanner.nextLine();
+                }
+                else
+                    break;
+            }
+            else {
+                System.out.print("Необходимо ввести целое число. Попробуйте еще раз: ");
+                amountOfVertex = scanner.nextLine();
+            }
+        }
+        return amountOfVertexAsInt;
+    }
+
+   /* private Integer handleGraphRepresentationInput(Scanner scanner){
         System.out.print("\nДля выбора представления графа введите его порядковый номер в списке: ");
         String graphRepresentationNumber = scanner.nextLine();
         Integer graphRepresentationNumberAsInt;
@@ -124,10 +160,11 @@ public class CommandHandlerService implements ICommandHandlerService {
             }
         }
         return graphRepresentationNumberAsInt;
-    }
+    }*/
 
     private Integer handleAmountOfVariantsInput(Scanner scanner) {
-        System.out.print("\nВведите необходимое количество вариантов: ");
+        System.out.println("\n\nКаждый созданный вариант включает в себя 3 алгоритма для 3-х разных графов!");
+        System.out.print("Введите необходимое количество вариантов: ");
         String amountOfVariants = scanner.nextLine();
         Integer amountOfVariantsAsInt;
         while (true) {
@@ -146,26 +183,34 @@ public class CommandHandlerService implements ICommandHandlerService {
         return amountOfVariantsAsInt;
     }
 
-    private Integer handleAlgorithmNumberInput(Scanner scanner){
-        System.out.print("\nДля выбора алгоритма введите его порядковый номер в списке: ");
-        String algorithmNumber = scanner.nextLine();
-        Integer algorithmNumberAsInt;
+    private List<Integer> handleAlgorithmNumberInput(Scanner scanner){
+        System.out.print("\nНеобходимо выбрать 3 алгоритма из представленных выше. Введите порядковые номера алгоритмов через пробел (пример: 1 4 3): ");
+        String algorithmNumbers = scanner.nextLine();
+        List<Integer> algorithmNumberAsIntegers;
         while(true){
-            if(algorithmNumber.matches("-?\\d+")){
-                algorithmNumberAsInt = Integer.parseInt(algorithmNumber);
-                if(algorithmNumberAsInt < 1 || algorithmNumberAsInt > 6){
-                    System.out.print("Алгоритма с таким номером не существует. Попробуйте еще раз: ");
-                    algorithmNumber = scanner.nextLine();
-                }
-                else
-                    break;
+            if(isAlgorithmInputStringCorrect(algorithmNumbers)){
+                algorithmNumberAsIntegers = Arrays.stream(algorithmNumbers.split(" ")).map(Integer::valueOf).toList();
+                break;
             }
             else {
-                System.out.print("Порядковый номер алгоритма должен быть целым числом. Попробуйте еще раз: ");
-                algorithmNumber = scanner.nextLine();
+                System.out.print("Некорректный ввод. Попробуйте еще раз: ");
+                algorithmNumbers = scanner.nextLine();
             }
         }
-        return algorithmNumberAsInt;
+        return algorithmNumberAsIntegers;
+    }
+
+    private boolean isAlgorithmInputStringCorrect(String algorithmNumbers){
+        String[] algAsArray = algorithmNumbers.split(" ");
+        for(String curAlg : algAsArray){
+            String curAlgWithoutSpaces = curAlg.trim();
+            if(!curAlgWithoutSpaces.matches("-?\\d+"))
+                return false;
+            Integer curAlgInt = Integer.valueOf(curAlgWithoutSpaces);
+            if(curAlgInt < 1 || curAlgInt > 6)
+                return false;
+        }
+        return true;
     }
 
     private boolean isValidFilePath(String path){
