@@ -12,6 +12,9 @@ import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 import org.suai.graphPracticum.service.interfaces.IGraphCommandHandlerService;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -33,6 +36,8 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     private Integer amountOfVariants;
 
+    private Integer currentVariant = 1;
+
     private List<Integer> algorithmNumbers;
 
     private Integer amountOfVertex;
@@ -40,6 +45,8 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
     private final Random random = new Random();
 
     private final static Integer MAX_WEIGHT = 10;
+
+    private static final String introduction = "Изобразить графы, представленные списком/матрицей смежности. Выполнить для них ";
 
 
     private Map<Integer, String> algNumberToAlgNameMap = Map.of(
@@ -51,29 +58,10 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             6, "Алгоритм поиска двусвязных комонент"
     );
 
-    //	@PostConstruct
-//	public void init(){
-//		AdjacencyListGraph sourceGraph = null;
-//		Boolean isGraphFullyConnected = false;
-//		do {
-//			sourceGraph = graphGeneratorService.generateAdjacencyListGraph(6, false, 0);
-//			// convertForChecking
-//			BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
-//			//checking that generated graph is fully connected
-//			isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
-//		}
-//		while (!isGraphFullyConnected);
-//
-//		graphGeneratorService.printAdjacencyListGraph(sourceGraph);
-//		// перевод в любой другой граф в зависимости от алгоритма
-//		DfsGraph graphForCalculation = GraphModelMapper.convertGeneratedGraphToDfsGraph(sourceGraph);
-//		String solution = baseCalculatorService.calculate(graphForCalculation);
-//		System.out.println(solution);
-//	}
-
     @Override
     public void handle() {
         List<AdjacencyListGraph> generatedGraphs = new ArrayList<>();
+        List<String> solutions = new ArrayList<>();
         List<String> graphsVariantsForFile = new ArrayList<>();
         List<Integer> graphRepresentationPerAlg = new ArrayList<>(); // 1 - adjacencyList; 2 - adjacencyMatrix
         Boolean isGraphFullyConnected;
@@ -92,9 +80,39 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
                 while (!isGraphFullyConnected);
                 addGraphToVariant(sourceGraph, generatedGraphs, graphsVariantsForFile, graphRepresentationPerAlg, withWeight);
             }
+
+            printVariantToFile(graphsVariantsForFile);
+
             generatedGraphs.clear();
             graphsVariantsForFile.clear();
             graphRepresentationPerAlg.clear();
+            solutions.clear();
+        }
+        System.out.println("\nОтлично, варианты заданий успешно записаны в " + filePaths.get(0) + "!");
+        updateStateToDefault();
+    }
+
+    private void printVariantToFile(List<String> graphVariantsForFile){
+        String fileWithVariants = filePaths.get(0);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWithVariants, true))) {
+            writer.write("\n\nВАРИАНТ " + currentVariant++ + ". " + introduction);
+            for(int i = 0; i < algorithmNumbers.size(); i++){
+                Integer algNum = algorithmNumbers.get(i);
+                if(i + 1 == algorithmNumbers.size())
+                    writer.write(algNumberToAlgNameMap.get(algNum) + " соответственно.\n\n");
+                else
+                    writer.write(algNumberToAlgNameMap.get(algNum) + ", ");
+            }
+            for (int i = 0; i < graphVariantsForFile.size(); i++) {
+                String graph = graphVariantsForFile.get(i);
+                writer.write(graph);
+                if(i + 1 != graphVariantsForFile.size()) {
+                    writer.newLine();
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при записи в файл: " + e.getMessage());
         }
     }
 
@@ -120,8 +138,11 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
         graphRepresentationPerAlg.add(randomGraphRepresentation);
     }
 
-    private void printVariantToFile(List<String> graphVariantsForFile){
-
+    private void updateStateToDefault(){
+        this.filePaths = null;
+        this.amountOfVariants = null;
+        this.algorithmNumbers = null;
+        this.amountOfVertex = null;
     }
 
     @Override
