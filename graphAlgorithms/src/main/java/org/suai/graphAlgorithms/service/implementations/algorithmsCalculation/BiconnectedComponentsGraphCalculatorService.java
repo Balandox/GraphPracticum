@@ -41,13 +41,8 @@ public class BiconnectedComponentsGraphCalculatorService extends GraphCalculator
             low[i] = -1;
             parent[i] = -1;
         }
-/*        trackLogger.append("\nШаг ").append(iteration++).append(". Инициализация массивов disc и low:");
-        trackLogger.append("\ndisc[]: ");
-        Arrays.stream(disc).forEach(value -> trackLogger.append(value).append(" "));
-        trackLogger.append("\nlow[]: ");
-        Arrays.stream(disc).forEach(value -> trackLogger.append(value).append(" "));*/
 
-        trackLogger.append("\nНачинаем обход графа при помощи DFS\n");
+        trackLogger.append("\nНачинаем обход графа при помощи DFS");
         for (int i = 0; i < graph.getAmountOfVertex(); i++) {
             if (disc[i] == -1)
                 BCCUtil(i, disc, low, stack, parent, graph.getAdjacencyList(), trackLogger);
@@ -59,7 +54,6 @@ public class BiconnectedComponentsGraphCalculatorService extends GraphCalculator
             while (!stack.isEmpty()) {
                 j = 1;
                 biconnectedComponents.append(stack.getLast().getSource()).append("<->").append(stack.getLast().getDestination()).append(" ");
-                System.out.print(stack.getLast().getSource() + "--" + stack.getLast().getDestination() + " ");
                 stack.removeLast();
             }
             if (j == 1) {
@@ -70,6 +64,8 @@ public class BiconnectedComponentsGraphCalculatorService extends GraphCalculator
 
         trackLogger.append("\nТочки сочленения: ");
         articulationPoints.forEach(value -> trackLogger.append(value).append(" "));
+        if(articulationPoints.isEmpty())
+            trackLogger.append("Отсутствуют");
         trackLogger.append("\n\nДвусвязные компоненты:\n").append(biconnectedComponents.toString());
         time = 0;
         iteration = 0;
@@ -118,10 +114,8 @@ public class BiconnectedComponentsGraphCalculatorService extends GraphCalculator
                     articulationPoints.add(u);
                     while (stack.getLast().getSource() != u || stack.getLast().getDestination() != v) {
                         biconnectedComponents.append(stack.getLast().getSource()).append("<->").append(stack.getLast().getDestination()).append(" ");
-                        System.out.print(stack.getLast().getSource() + "--" + stack.getLast().getDestination() + " ");
                         stack.removeLast();
                     }
-                    System.out.println(stack.getLast().getSource() + "--" + stack.getLast().getDestination() + " ");
                     biconnectedComponents.append(stack.getLast().getSource()).append("<->").append(stack.getLast().getDestination()).append("\n");
                     stack.removeLast();
                     //count++;

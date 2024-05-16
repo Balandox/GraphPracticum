@@ -20,10 +20,10 @@ public class BfsGraphCalculatorService extends GraphCalculatorService implements
     public String makeAlgorithmCalculation(Graph graph) {
         BfsGraph sourceGraph = (BfsGraph) graph;
         StringBuilder trackLogger = new StringBuilder();
-        Integer start = random.nextInt(sourceGraph.getAmountOfVertex());
-        trackLogger.append("\nНачало алгоритма BFS. Стартовая вершина - ").append(start).append("\n");
+        //Integer start = random.nextInt(sourceGraph.getAmountOfVertex());
+        trackLogger.append("\nНачало алгоритма BFS. Стартовая вершина - ").append("0").append("\n");
 
-        this.bfs(sourceGraph, start, trackLogger);
+        this.bfs(sourceGraph, 0, trackLogger);
 
         return trackLogger.toString();
     }

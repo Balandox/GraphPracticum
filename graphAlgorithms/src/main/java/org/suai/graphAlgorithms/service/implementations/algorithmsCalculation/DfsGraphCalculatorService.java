@@ -21,10 +21,10 @@ public class DfsGraphCalculatorService extends GraphCalculatorService implements
     public String makeAlgorithmCalculation(Graph graph) {
         DfsGraph sourceGraph = (DfsGraph) graph;
         StringBuilder trackLogger = new StringBuilder();
-        Integer start = random.nextInt(sourceGraph.getAmountOfVertex());
-        trackLogger.append("\nНачало алгоритма DFS. Стартовая вершина - ").append(start).append("\n");
+        //Integer start = random.nextInt(sourceGraph.getAmountOfVertex());
+        trackLogger.append("\nНачало алгоритма DFS. Стартовая вершина - ").append("0").append("\n");
 
-        this.dfs(sourceGraph, start, trackLogger);
+        this.dfs(sourceGraph, 0, trackLogger);
 
         return trackLogger.toString();
     }

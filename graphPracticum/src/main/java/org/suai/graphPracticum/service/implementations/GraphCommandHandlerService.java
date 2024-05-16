@@ -7,6 +7,7 @@ import org.suai.graphAlgorithms.model.BfsGraph;
 import org.suai.graphAlgorithms.service.interfaces.IGraphBaseCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
 import org.suai.graphAlgorithms.utils.GraphModelMapper;
+import org.suai.graphGeneration.model.baseGraph.Graph;
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
@@ -46,7 +47,9 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     private final static Integer MAX_WEIGHT = 10;
 
-    private static final String introduction = "Изобразить графы, представленные списком/матрицей смежности. Выполнить для них ";
+    private static final String introductionVariants = "Изобразить графы, представленные списком/матрицей смежности. Выполнить для них ";
+
+    private static final String introductionAnswers = "Ниже приведены верные результаты выполнения алгоритмов в соответствии с условием варианта.";
 
 
     private Map<Integer, String> algNumberToAlgNameMap = Map.of(
@@ -62,7 +65,7 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
     public void handle() {
         List<AdjacencyListGraph> generatedGraphs = new ArrayList<>();
         List<String> solutions = new ArrayList<>();
-        List<String> graphsVariantsForFile = new ArrayList<>();
+        List<String> graphsVariantsForFile = new ArrayList<>(); // variants info
         List<Integer> graphRepresentationPerAlg = new ArrayList<>(); // 1 - adjacencyList; 2 - adjacencyMatrix
         Boolean isGraphFullyConnected;
         for(int i = 0; i < amountOfVariants; i++) {
@@ -79,23 +82,60 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
                 }
                 while (!isGraphFullyConnected);
                 addGraphToVariant(sourceGraph, generatedGraphs, graphsVariantsForFile, graphRepresentationPerAlg, withWeight);
+                makeCalculationAndSaveIt(solutions, sourceGraph, algNum);
             }
-
             printVariantToFile(graphsVariantsForFile);
+            currentVariant = currentVariant - 1;
+            printAnswersToFile(solutions);
 
             generatedGraphs.clear();
             graphsVariantsForFile.clear();
             graphRepresentationPerAlg.clear();
             solutions.clear();
         }
-        System.out.println("\nОтлично, варианты заданий успешно записаны в " + filePaths.get(0) + "!");
+        System.out.println("\nОтлично. Варианты заданий и ответы на них успешно сохранены!");
         updateStateToDefault();
+    }
+
+    private void makeCalculationAndSaveIt(List<String> solutions, AdjacencyListGraph graph, Integer algNumber){
+        Graph graphForCalculation = getGraphModelByAlgNumber(algNumber, graph);
+        String solution = baseCalculatorService.calculate(graphForCalculation);
+        solutions.add(solution);
+    }
+
+    private Graph getGraphModelByAlgNumber(Integer algNumber, AdjacencyListGraph generatedGraph){
+        return switch (algNumber) {
+            case 1 -> GraphModelMapper.convertGeneratedGraphToBfsGraph(generatedGraph);
+            case 2 -> GraphModelMapper.convertGeneratedGraphToDfsGraph(generatedGraph);
+            case 3 -> GraphModelMapper.convertGeneratedGraphToPrimaGraph(generatedGraph);
+            case 4 -> GraphModelMapper.convertGeneratedGraphToKruskalGraph(generatedGraph);
+            case 5 -> GraphModelMapper.convertGeneratedGraphToDijkstraGraph(generatedGraph);
+            case 6 -> GraphModelMapper.convertGeneratedGraphToBiconnectedComponentsGraph(generatedGraph);
+            default -> null;
+        };
+    }
+
+    private void printAnswersToFile(List<String> solutions){
+        String fileWithAnswers = filePaths.get(1);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWithAnswers, true))) {
+            writer.write("\n\nВАРИАНТ " + currentVariant++ + ". " + introductionAnswers + "\n\n");
+            for (int i = 0; i < solutions.size(); i++) {
+                String graph = solutions.get(i);
+                writer.write(graph);
+                if(i + 1 != solutions.size()) {
+                    writer.newLine();
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при записи в файл: " + e.getMessage());
+        }
     }
 
     private void printVariantToFile(List<String> graphVariantsForFile){
         String fileWithVariants = filePaths.get(0);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWithVariants, true))) {
-            writer.write("\n\nВАРИАНТ " + currentVariant++ + ". " + introduction);
+            writer.write("\n\nВАРИАНТ " + currentVariant++ + ". " + introductionVariants);
             for(int i = 0; i < algorithmNumbers.size(); i++){
                 Integer algNum = algorithmNumbers.get(i);
                 if(i + 1 == algorithmNumbers.size())

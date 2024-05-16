@@ -18,7 +18,7 @@ public class KruskalGraphCalculatorService extends GraphCalculatorService implem
     public String makeAlgorithmCalculation(Graph graph) {
         KruskalGraph sourceGraph = (KruskalGraph) graph;
         StringBuilder trackLogger = new StringBuilder();
-        trackLogger.append("\nНачало алгоритма Крускала\n");
+        trackLogger.append("\nНачало алгоритма Крускала.\n");
 
         this.kruskalMST(sourceGraph, trackLogger);
 
@@ -61,8 +61,8 @@ public class KruskalGraphCalculatorService extends GraphCalculatorService implem
                 performUnion(subsetArray, nextSource, nextDestination);
             }
         }
-        for (index = 0; index < newEdge; index++)
-            System.out.println(finalResult[index].getSource() + " - " + finalResult[index].getDestination() + ": " + finalResult[index].getWeight());
+/*        for (index = 0; index < newEdge; index++)
+            System.out.println(finalResult[index].getSource() + " - " + finalResult[index].getDestination() + ": " + finalResult[index].getWeight());*/
         addMSTResultToLogger(finalResult, trackLogger);
     }
 

@@ -20,13 +20,12 @@ public class DijkstraGraphCalculatorService extends GraphCalculatorService imple
     @Override
     public String makeAlgorithmCalculation(Graph graph) {
         DijkstraGraph sourceGraph = (DijkstraGraph) graph;
-        System.out.println(sourceGraph);
 
         StringBuilder trackLogger = new StringBuilder();
-        Integer start = random.nextInt(sourceGraph.getAmountOfVertex());
-        trackLogger.append("\nНачало алгоритма Дейкстры. Исходная вершина - ").append(start).append("\n");
+        //Integer start = random.nextInt(sourceGraph.getAmountOfVertex());
+        trackLogger.append("\nНачало алгоритма Дейкстры. Исходная вершина - ").append("0").append("\n");
 
-        this.dijkstra(sourceGraph, start, trackLogger);
+        this.dijkstra(sourceGraph, 0, trackLogger);
 
         return trackLogger.toString();
     }
