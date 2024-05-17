@@ -37,7 +37,7 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     private Integer amountOfVariants;
 
-    private Integer currentVariant = 1;
+    private Integer currentVariant = 2;
 
     private List<Integer> algorithmNumbers;
 
