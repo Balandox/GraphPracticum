@@ -73,10 +73,10 @@ public class UserInterfaceService implements IUserInterfaceService {
     @Override
     public void showFilesPaths(List<String> filePaths) {
         if(filePaths.isEmpty()) {
-            System.out.println("Вы еще не указали файлы для записи вариантов заданий и ответов.");
+            System.out.println("Вы еще не указали файлы для записи условий заданий и ответов.");
             return;
         }
-        System.out.println("Текущий файл для записи вариантов заданий: " + filePaths.get(0));
+        System.out.println("Текущий файл для записи условий заданий: " + filePaths.get(0));
         System.out.println("Текущий файл для записи ответов: " + filePaths.get(1));
     }
 

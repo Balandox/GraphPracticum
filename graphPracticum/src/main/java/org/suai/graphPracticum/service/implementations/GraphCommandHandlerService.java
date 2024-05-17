@@ -35,21 +35,19 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     private List<String> filePaths;
 
-    private Integer amountOfVariants;
-
-    private Integer currentVariant = 2;
-
-    private List<Integer> algorithmNumbers;
+    private Integer algorithmNumber;
 
     private Integer amountOfVertex;
+
+    private Integer graphRepresentation;
+
+    private Integer taskCounter = 1;
 
     private final Random random = new Random();
 
     private final static Integer MAX_WEIGHT = 10;
 
-    private static final String introductionVariants = "Изобразить графы, представленные списком/матрицей смежности. Выполнить для них ";
-
-    private static final String introductionAnswers = "Ниже приведены верные результаты выполнения алгоритмов в соответствии с условием варианта.";
+    private static final String introductionAnswers = "Ниже приведен верный результаты выполнения алгоритма в соответствии с условием задания.";
 
 
     private Map<Integer, String> algNumberToAlgNameMap = Map.of(
@@ -63,7 +61,34 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
 
     @Override
     public void handle() {
-        List<AdjacencyListGraph> generatedGraphs = new ArrayList<>();
+        Boolean isGraphFullyConnected;
+        boolean withWeight = Stream.of(3, 4, 5).anyMatch(cur -> (int) algorithmNumber == cur);
+        AdjacencyListGraph generatedGraph;
+        do {
+            generatedGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
+                    graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
+            // convertForChecking
+            BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(generatedGraph);
+            //checking that generated graph is fully connected
+            isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
+        }
+        while (!isGraphFullyConnected);
+
+        String generatedGraphForFile;
+        if(graphRepresentation == 1)
+            generatedGraphForFile = graphGeneratorService.printAdjacencyListGraph(generatedGraph);
+        else
+            generatedGraphForFile = withWeight ? graphGeneratorService.printAdjacencyMatrixGraph(generatedGraph, MAX_WEIGHT) : graphGeneratorService.printAdjacencyMatrixGraph(generatedGraph, 0);
+
+        Graph graphForCalculation = getGraphModelByAlgNumber(algorithmNumber, generatedGraph);
+        String solution = baseCalculatorService.calculate(graphForCalculation);
+        printGraphToFile(generatedGraphForFile);
+        taskCounter--;
+        printAnswersToFile(solution);
+        System.out.println("\nОтлично. Условие задания и ответ на него успешно сохранены!");
+        updateStateToDefault();
+
+        /*List<AdjacencyListGraph> generatedGraphs = new ArrayList<>();
         List<String> solutions = new ArrayList<>();
         List<String> graphsVariantsForFile = new ArrayList<>(); // variants info
         List<Integer> graphRepresentationPerAlg = new ArrayList<>(); // 1 - adjacencyList; 2 - adjacencyMatrix
@@ -94,10 +119,10 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             solutions.clear();
         }
         System.out.println("\nОтлично. Варианты заданий и ответы на них успешно сохранены!");
-        updateStateToDefault();
+        updateStateToDefault();*/
     }
 
-    private void makeCalculationAndSaveIt(List<String> solutions, AdjacencyListGraph graph, Integer algNumber){
+    private void makeCalculationAndSaveItToFile(List<String> solutions, AdjacencyListGraph graph, Integer algNumber){
         Graph graphForCalculation = getGraphModelByAlgNumber(algNumber, graph);
         String solution = baseCalculatorService.calculate(graphForCalculation);
         solutions.add(solution);
@@ -115,81 +140,55 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
         };
     }
 
-    private void printAnswersToFile(List<String> solutions){
+    private void printAnswersToFile(String solution){
         String fileWithAnswers = filePaths.get(1);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWithAnswers, true))) {
-            writer.write("\n\nВАРИАНТ " + currentVariant++ + ". " + introductionAnswers + "\n\n");
-            for (int i = 0; i < solutions.size(); i++) {
-                String graph = solutions.get(i);
-                writer.write(graph);
-                if(i + 1 != solutions.size()) {
-                    writer.newLine();
-                    writer.newLine();
-                }
-            }
+            writer.write("\n\nЗадание " + taskCounter++ + ". " + introductionAnswers + "\n\n");
+            writer.write(solution);
+            writer.newLine();
+            writer.newLine();
         } catch (IOException e) {
             System.out.println("Ошибка при записи в файл: " + e.getMessage());
         }
     }
 
-    private void printVariantToFile(List<String> graphVariantsForFile){
+    private void printGraphToFile(String graph){
         String fileWithVariants = filePaths.get(0);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWithVariants, true))) {
-            writer.write("\n\nВАРИАНТ " + currentVariant++ + ". " + introductionVariants);
-            for(int i = 0; i < algorithmNumbers.size(); i++){
-                Integer algNum = algorithmNumbers.get(i);
-                if(i + 1 == algorithmNumbers.size())
-                    writer.write(algNumberToAlgNameMap.get(algNum) + " соответственно.\n\n");
-                else
-                    writer.write(algNumberToAlgNameMap.get(algNum) + ", ");
-            }
-            for (int i = 0; i < graphVariantsForFile.size(); i++) {
-                String graph = graphVariantsForFile.get(i);
-                writer.write(graph);
-                if(i + 1 != graphVariantsForFile.size()) {
-                    writer.newLine();
-                    writer.newLine();
-                }
-            }
+            StringBuilder taskIntroduction = new StringBuilder();
+            taskIntroduction.append("\n\n").append("Задание ").append(taskCounter++).append(". Изобразить граф представленный в виде ");
+            if(graphRepresentation == 1)
+                taskIntroduction.append("списка смежности. Выполнить для него ");
+            else
+                taskIntroduction.append("матрицы смежности. Выполнить для него ");
+            taskIntroduction.append(algNumberToAlgNameMap.get(algorithmNumber)).append(".\n\n");
+            writer.write(taskIntroduction.toString());
+            writer.write(graph);
+            writer.newLine();
+            writer.newLine();
         } catch (IOException e) {
             System.out.println("Ошибка при записи в файл: " + e.getMessage());
         }
     }
 
-    private void addGraphToVariant(AdjacencyListGraph sourceGraph, List<AdjacencyListGraph> generatedGraphs,
-                                   List<String> graphsVariantsForFile, List<Integer> graphRepresentationPerAlg, boolean withWeight){
-        int randomGraphRepresentation = random.nextInt(2) + 1;
-        if(graphRepresentationPerAlg.size() == 2){
-            int firstRep = graphRepresentationPerAlg.get(0);
-            int secondRep = graphRepresentationPerAlg.get(1);
-            if(firstRep == secondRep && secondRep == randomGraphRepresentation){ // generated all the same representation, need to change one to another
-                randomGraphRepresentation = randomGraphRepresentation == 1 ? 2 : 1;
-            }
-        }
-
-        String graphVariant;
-        if(randomGraphRepresentation == 1)
-            graphVariant = graphGeneratorService.printAdjacencyListGraph(sourceGraph);
-        else
-            graphVariant = withWeight ? graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, MAX_WEIGHT) : graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, 0);
-
-        graphsVariantsForFile.add(graphVariant);
-        generatedGraphs.add(sourceGraph);
-        graphRepresentationPerAlg.add(randomGraphRepresentation);
-    }
 
     private void updateStateToDefault(){
         this.filePaths = null;
-        this.amountOfVariants = null;
-        this.algorithmNumbers = null;
+        this.algorithmNumber = null;
+        graphRepresentation = null;
         this.amountOfVertex = null;
     }
 
     @Override
-    public void updateState(List<String> filePaths, Integer amountOfVariants, List<Integer> algorithmNumbers, Integer amountOfVertex) {
+    public void updateState(List<String> filePaths, Integer algorithmNumber, Integer amountOfVertex, Integer graphRepresentation) {
         this.filePaths = filePaths;
-        this.amountOfVariants = amountOfVariants;
-        this.algorithmNumbers = algorithmNumbers;
+        this.algorithmNumber = algorithmNumber;
         this.amountOfVertex = amountOfVertex;
+        this.graphRepresentation = graphRepresentation;
+    }
+
+    @Override
+    public void updateTaskCounterOnFileChanging() {
+        this.taskCounter = 1;
     }
 }
