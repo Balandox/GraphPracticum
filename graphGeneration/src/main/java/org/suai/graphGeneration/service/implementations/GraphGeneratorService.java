@@ -90,21 +90,6 @@ public class GraphGeneratorService implements IGraphGeneratorService {
         return resultGraph;
     }
 
-/*    @Override
-    public boolean isGraphHaveIsolatedVertex(AdjacencyListGraph graph) {
-        List<List<GeneratedGraphElement>> adjList = graph.getAdjacencyList();
-        for(int i = 0; i < adjList.size(); i++){
-            int curVertex = i;
-            if(adjList.get(curVertex).isEmpty()) {
-                boolean hasNeighbors
-                for(List<GeneratedGraphElement> vertexNeighbors : adjList){
-
-                }
-            }
-        }
-        return false;
-    }*/
-
     int computeMaxEdges(int numOfVertices) {
         return numOfVertices * ((numOfVertices - 1) / 2);
     }

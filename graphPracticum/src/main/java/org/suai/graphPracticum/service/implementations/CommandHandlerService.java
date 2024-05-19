@@ -74,7 +74,7 @@ public class CommandHandlerService implements ICommandHandlerService {
             System.out.print("\nВведите команду: ");
             String userInput = scanner.nextLine();
 
-            switch (userInput){
+            switch (userInput.trim()){
                 case GENERATE_COMMAND:
                     if(filePaths.isEmpty()) {
                         System.out.println("Прежде чем перейти к генерации вариантов, необходимо указать файлы для записи вариантов заданий и ответов.\n" +
@@ -125,20 +125,6 @@ public class CommandHandlerService implements ICommandHandlerService {
                 case HELP_COMMAND:
                     userInterfaceService.showCommands();
                     break;
-
-/*                    AdjacencyListGraph sourceGraph;
-                    Boolean isGraphFullyConnected;
-                    do {
-                        sourceGraph = graphGeneratorService.generateAcyclicDirectedGraph(6, false, 0);
-                        // convertForChecking
-                        BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
-                        //checking that generated graph is fully connected
-                        isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
-                    }
-                    while (!isGraphFullyConnected);
-                    System.out.println(graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, 0));
-                    System.out.println(baseCalculatorService.calculate(GraphModelMapper.convertGeneratedGraphToTopologicalSortGraph(sourceGraph)));
-                    break;*/
 
                 case EXIT_COMMAND:
                     userInterfaceService.showGoodbye();
