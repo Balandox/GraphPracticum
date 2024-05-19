@@ -59,7 +59,7 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
             5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
             6, "Алгоритм поиска двусвязных комонент",
-            7, "Топологическая сортировка"
+            7, "Топологическая сортировка (на основе DFS)"
     );
 
     @Override
@@ -115,6 +115,7 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             case 4 -> GraphModelMapper.convertGeneratedGraphToKruskalGraph(generatedGraph);
             case 5 -> GraphModelMapper.convertGeneratedGraphToDijkstraGraph(generatedGraph);
             case 6 -> GraphModelMapper.convertGeneratedGraphToBiconnectedComponentsGraph(generatedGraph);
+            case 7 -> GraphModelMapper.convertGeneratedGraphToTopologicalSortGraph(generatedGraph);
             default -> null;
         };
     }
@@ -143,10 +144,14 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             for(int i = 0; i < algorithmNumbers.size(); i++){
                 Integer algNum = algorithmNumbers.get(i);
                 if(i + 1 == algorithmNumbers.size())
-                    writer.write(algNumberToAlgNameMap.get(algNum) + " соответственно.\n\n");
+                    writer.write(algNumberToAlgNameMap.get(algNum) + " соответственно.");
                 else
                     writer.write(algNumberToAlgNameMap.get(algNum) + ", ");
             }
+            if(algorithmNumbers.contains(7))
+                writer.write(" В ходе Топологической сортировки при нескольких не посещенных соседях необходимо выбирать соседа с наименьшим значением.\n\n");
+            else
+                writer.write("\n\n");
             for (int i = 0; i < graphVariantsForFile.size(); i++) {
                 String graph = graphVariantsForFile.get(i);
                 writer.write(graph);

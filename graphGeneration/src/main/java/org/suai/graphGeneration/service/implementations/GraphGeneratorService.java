@@ -84,6 +84,8 @@ public class GraphGeneratorService implements IGraphGeneratorService {
                 }
             }
         }
+        for(List<GeneratedGraphElement> neighbor : adjacencyList)
+            neighbor.sort(GeneratedGraphElement::compareTo);
         AdjacencyListGraph resultGraph = new AdjacencyListGraph(amountOfVertex, amountOfEdges, adjacencyList);
         return resultGraph;
     }

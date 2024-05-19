@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 import org.suai.graphAlgorithms.model.BfsGraph;
+import org.suai.graphAlgorithms.service.interfaces.IGraphBaseCalculatorService;
 import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
 import org.suai.graphAlgorithms.utils.GraphModelMapper;
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
@@ -37,6 +38,10 @@ public class CommandHandlerService implements ICommandHandlerService {
     @Autowired
     @Qualifier("bfsGraphCalculatorService")
     private IGraphCalculatorService calculatorService;
+    @Autowired
+    @Qualifier("graphCalculatorService")
+    private IGraphBaseCalculatorService baseCalculatorService;
+
 
     private List<String> filePaths = new ArrayList<>();
 
@@ -47,7 +52,7 @@ public class CommandHandlerService implements ICommandHandlerService {
             4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
             5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
             6, "Алгоритм поиска двусвязных комонент",
-            7, "Топологическая сортировка"
+            7, "Топологическая сортировка (на основе DFS)"
     );
 
     private static final String GENERATE_COMMAND = "generate";
@@ -121,11 +126,10 @@ public class CommandHandlerService implements ICommandHandlerService {
                     userInterfaceService.showCommands();
                     break;
 
-                case CLEAR_COMMAND:
-                    AdjacencyListGraph sourceGraph;
+/*                    AdjacencyListGraph sourceGraph;
                     Boolean isGraphFullyConnected;
                     do {
-                        sourceGraph = graphGeneratorService.generateAcyclicDirectedGraph(9, false, 0);
+                        sourceGraph = graphGeneratorService.generateAcyclicDirectedGraph(6, false, 0);
                         // convertForChecking
                         BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
                         //checking that generated graph is fully connected
@@ -133,7 +137,8 @@ public class CommandHandlerService implements ICommandHandlerService {
                     }
                     while (!isGraphFullyConnected);
                     System.out.println(graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, 0));
-                    break;
+                    System.out.println(baseCalculatorService.calculate(GraphModelMapper.convertGeneratedGraphToTopologicalSortGraph(sourceGraph)));
+                    break;*/
 
                 case EXIT_COMMAND:
                     userInterfaceService.showGoodbye();
