@@ -1,9 +1,15 @@
 package org.suai.graphPracticum.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
+import org.suai.graphAlgorithms.model.BfsGraph;
+import org.suai.graphAlgorithms.service.interfaces.IGraphCalculatorService;
+import org.suai.graphAlgorithms.utils.GraphModelMapper;
+import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
+import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 import org.suai.graphPracticum.service.interfaces.ICommandHandlerService;
 import org.suai.graphPracticum.service.interfaces.IGraphCommandHandlerService;
 import org.suai.graphPracticum.service.interfaces.IUserInterfaceService;
@@ -25,6 +31,13 @@ public class CommandHandlerService implements ICommandHandlerService {
     @Autowired
     private IGraphCommandHandlerService graphCommandHandlerService; // отвечает за обработку команд с графами
 
+    @Autowired
+    private IGraphGeneratorService graphGeneratorService;
+
+    @Autowired
+    @Qualifier("bfsGraphCalculatorService")
+    private IGraphCalculatorService calculatorService;
+
     private List<String> filePaths = new ArrayList<>();
 
     private Map<Integer, String> algNumberToAlgNameMap = Map.of(
@@ -33,7 +46,8 @@ public class CommandHandlerService implements ICommandHandlerService {
             3, "Алгоритм Прима (Нахождение минимального остовного дерева)",
             4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
             5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
-            6, "Алгоритм поиска двусвязных комонент"
+            6, "Алгоритм поиска двусвязных комонент",
+            7, "Топологическая сортировка"
     );
 
     private static final String GENERATE_COMMAND = "generate";
@@ -96,6 +110,7 @@ public class CommandHandlerService implements ICommandHandlerService {
                     filePaths.clear();
                     filePaths.add(variantsFilePath);
                     filePaths.add(answersFilePath);
+                    graphCommandHandlerService.updateVariantCounterOnFileChanging();
                     break;
 
                 case FILES_SHOW_COMMAND:
@@ -104,6 +119,20 @@ public class CommandHandlerService implements ICommandHandlerService {
 
                 case HELP_COMMAND:
                     userInterfaceService.showCommands();
+                    break;
+
+                case CLEAR_COMMAND:
+                    AdjacencyListGraph sourceGraph;
+                    Boolean isGraphFullyConnected;
+                    do {
+                        sourceGraph = graphGeneratorService.generateAcyclicDirectedGraph(9, false, 0);
+                        // convertForChecking
+                        BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
+                        //checking that generated graph is fully connected
+                        isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
+                    }
+                    while (!isGraphFullyConnected);
+                    System.out.println(graphGeneratorService.printAdjacencyMatrixGraph(sourceGraph, 0));
                     break;
 
                 case EXIT_COMMAND:
@@ -162,6 +191,7 @@ public class CommandHandlerService implements ICommandHandlerService {
         return graphRepresentationNumberAsInt;
     }*/
 
+
     private Integer handleAmountOfVariantsInput(Scanner scanner) {
         System.out.println("\n\nКаждый созданный вариант включает в себя 3 алгоритма для 3-х разных графов!");
         System.out.print("Введите необходимое количество вариантов: ");
@@ -202,12 +232,14 @@ public class CommandHandlerService implements ICommandHandlerService {
 
     private boolean isAlgorithmInputStringCorrect(String algorithmNumbers){
         String[] algAsArray = algorithmNumbers.split(" ");
+        if(algAsArray.length != 3)
+            return false;
         for(String curAlg : algAsArray){
             String curAlgWithoutSpaces = curAlg.trim();
             if(!curAlgWithoutSpaces.matches("-?\\d+"))
                 return false;
             Integer curAlgInt = Integer.valueOf(curAlgWithoutSpaces);
-            if(curAlgInt < 1 || curAlgInt > 6)
+            if(curAlgInt < 1 || curAlgInt > 7)
                 return false;
         }
         return true;

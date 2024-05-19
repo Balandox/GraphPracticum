@@ -58,7 +58,8 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             3, "Алгоритм Прима (Нахождение минимального остовного дерева)",
             4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
             5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
-            6, "Алгоритм поиска двусвязных комонент"
+            6, "Алгоритм поиска двусвязных комонент",
+            7, "Топологическая сортировка"
     );
 
     @Override
@@ -73,8 +74,11 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
                 boolean withWeight = Stream.of(3, 4, 5).anyMatch(cur -> (int) algNum == cur);
                 AdjacencyListGraph sourceGraph;
                 do {
-                    sourceGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
-                            graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
+                    if(algNum == 7)
+                        sourceGraph = graphGeneratorService.generateAcyclicDirectedGraph(amountOfVertex, false, 0);
+                    else
+                        sourceGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
+                                graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
                     // convertForChecking
                     BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
                     //checking that generated graph is fully connected
@@ -191,5 +195,10 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
         this.amountOfVariants = amountOfVariants;
         this.algorithmNumbers = algorithmNumbers;
         this.amountOfVertex = amountOfVertex;
+    }
+
+    @Override
+    public void updateVariantCounterOnFileChanging() {
+        this.currentVariant = 1;
     }
 }

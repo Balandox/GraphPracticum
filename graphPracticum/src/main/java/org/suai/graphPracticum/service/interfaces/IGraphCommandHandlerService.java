@@ -6,6 +6,8 @@ public interface IGraphCommandHandlerService {
 
     void updateState(List<String> filePaths, Integer amountOfVariants, List<Integer> algorithmNumbers, Integer amountOfVertex);
 
+    void updateVariantCounterOnFileChanging();
+
     void handle();
 
 }

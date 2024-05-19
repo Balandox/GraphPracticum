@@ -77,10 +77,10 @@ public class BfsGraphCalculatorService extends GraphCalculatorService implements
                 else
                     trackLogger.append("Не посещенных соседей нет;");
             }
-            else{
+/*            else{
                 trackLogger.append("Изолированная вершина. Граф не подходит");
                 return false;
-            }
+            }*/
             firstNeighborAtIteration = false;
             atLeastOneNotVisitedNeighbor = false;
             iteration++;

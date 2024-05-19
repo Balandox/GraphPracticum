@@ -8,6 +8,8 @@ public interface IGraphGeneratorService {
 
     public AdjacencyListGraph generateAdjacencyMatrixGraph(int amountOfVertex, boolean withWeights, int maxWeight);
 
+    AdjacencyListGraph generateAcyclicDirectedGraph(int amountOfVertex, boolean withWeights, int maxWeight);
+
     public String printAdjacencyListGraph(AdjacencyListGraph adjacencyListGraph);
 
     public String printAdjacencyMatrixGraph(AdjacencyListGraph adjacencyListGraph, int maxWeight);
