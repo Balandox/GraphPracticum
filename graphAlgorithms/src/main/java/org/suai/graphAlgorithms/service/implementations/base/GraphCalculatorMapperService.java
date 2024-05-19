@@ -2,10 +2,7 @@ package org.suai.graphAlgorithms.service.implementations.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.suai.graphAlgorithms.model.BfsGraph;
-import org.suai.graphAlgorithms.model.BiconnectedComponentsGraph;
-import org.suai.graphAlgorithms.model.DfsGraph;
-import org.suai.graphAlgorithms.model.PrimaGraph;
+import org.suai.graphAlgorithms.model.*;
 import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
 import org.suai.graphAlgorithms.model.kruskal.KruskalGraph;
 import org.suai.graphAlgorithms.service.implementations.algorithmsCalculation.*;
@@ -34,6 +31,9 @@ public class GraphCalculatorMapperService implements IGraphCalculatorMapperServi
     @Autowired
     private BiconnectedComponentsGraphCalculatorService biconnectedComponentsGraphCalculatorService;
 
+    @Autowired
+    private TopologicalSortGraphCalculatorService topologicalSortGraphCalculatorService;
+
     @Override
     public IGraphCalculatorService getGraphCalculatorService(Graph graph) {
         IGraphCalculatorService graphCalculator = null;
@@ -49,6 +49,8 @@ public class GraphCalculatorMapperService implements IGraphCalculatorMapperServi
             graphCalculator = dijkstraGraphCalculatorService;
         else if(graph instanceof BiconnectedComponentsGraph)
             graphCalculator = biconnectedComponentsGraphCalculatorService;
+        else if(graph instanceof TopologicalSortGraph)
+            graphCalculator = topologicalSortGraphCalculatorService;
 
         return graphCalculator;
     }

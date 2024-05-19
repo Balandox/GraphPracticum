@@ -2,19 +2,13 @@ package org.suai.graphPracticum.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.NumberUtils;
-import org.springframework.util.StringUtils;
 import org.suai.graphPracticum.service.interfaces.ICommandHandlerService;
 import org.suai.graphPracticum.service.interfaces.IGraphCommandHandlerService;
 import org.suai.graphPracticum.service.interfaces.IUserInterfaceService;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CommandHandlerService implements ICommandHandlerService {
@@ -33,7 +27,8 @@ public class CommandHandlerService implements ICommandHandlerService {
             3, "Алгоритм Прима (Нахождение минимального остовного дерева)",
             4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
             5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
-            6, "Алгоритм поиска двусвязных комонент"
+            6, "Алгоритм поиска двусвязных комонент",
+            7, "Топологическая сортировка (на основе DFS)"
     );
 
     private static final String GENERATE_COMMAND = "generate";
@@ -55,7 +50,7 @@ public class CommandHandlerService implements ICommandHandlerService {
             System.out.print("\nВведите команду: ");
             String userInput = scanner.nextLine();
 
-            switch (userInput){
+            switch (userInput.trim()){
                 case GENERATE_COMMAND:
                     if(filePaths.isEmpty()) {
                         System.out.println("Прежде чем перейти к генерации, необходимо указать файлы для записи условий заданий и ответов.\n" +
@@ -201,7 +196,7 @@ public class CommandHandlerService implements ICommandHandlerService {
         if(!curAlgWithoutSpaces.matches("-?\\d+"))
             return false;
         Integer curAlgInt = Integer.valueOf(curAlgWithoutSpaces);
-        if(curAlgInt < 1 || curAlgInt > 6)
+        if(curAlgInt < 1 || curAlgInt > 7)
             return false;
         return true;
     }

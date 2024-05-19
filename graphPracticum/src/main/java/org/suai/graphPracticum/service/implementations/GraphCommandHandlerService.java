@@ -56,7 +56,8 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             3, "Алгоритм Прима (Нахождение минимального остовного дерева)",
             4, "Алгоритм Крускала (Нахождение минимального остовного дерева)",
             5, "Алгоритм Дейкстры (Поиск кратчайшего пути)",
-            6, "Алгоритм поиска двусвязных комонент"
+            6, "Алгоритм поиска двусвязных комонент",
+            7, "Топологическую сортировку (на основе DFS)"
     );
 
     @Override
@@ -65,8 +66,11 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
         boolean withWeight = Stream.of(3, 4, 5).anyMatch(cur -> (int) algorithmNumber == cur);
         AdjacencyListGraph generatedGraph;
         do {
-            generatedGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
-                    graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
+            if(algorithmNumber == 7)
+                generatedGraph = graphGeneratorService.generateAcyclicDirectedGraph(amountOfVertex, false, 0);
+            else
+                generatedGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
+                        graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
             // convertForChecking
             BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(generatedGraph);
             //checking that generated graph is fully connected
@@ -88,38 +92,6 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
         System.out.println("\nОтлично. Условие задания и ответ на него успешно сохранены!");
         updateStateToDefault();
 
-        /*List<AdjacencyListGraph> generatedGraphs = new ArrayList<>();
-        List<String> solutions = new ArrayList<>();
-        List<String> graphsVariantsForFile = new ArrayList<>(); // variants info
-        List<Integer> graphRepresentationPerAlg = new ArrayList<>(); // 1 - adjacencyList; 2 - adjacencyMatrix
-        Boolean isGraphFullyConnected;
-        for(int i = 0; i < amountOfVariants; i++) {
-            for(Integer algNum : algorithmNumbers) {
-                boolean withWeight = Stream.of(3, 4, 5).anyMatch(cur -> (int) algNum == cur);
-                AdjacencyListGraph sourceGraph;
-                do {
-                    sourceGraph = withWeight ? graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, true, MAX_WEIGHT) :
-                            graphGeneratorService.generateAdjacencyListGraph(amountOfVertex, false, 0);
-                    // convertForChecking
-                    BfsGraph graphForChecking = GraphModelMapper.convertGeneratedGraphToBfsGraph(sourceGraph);
-                    //checking that generated graph is fully connected
-                    isGraphFullyConnected = calculatorService.isGraphFullyConnected(graphForChecking);
-                }
-                while (!isGraphFullyConnected);
-                addGraphToVariant(sourceGraph, generatedGraphs, graphsVariantsForFile, graphRepresentationPerAlg, withWeight);
-                makeCalculationAndSaveIt(solutions, sourceGraph, algNum);
-            }
-            printVariantToFile(graphsVariantsForFile);
-            currentVariant = currentVariant - 1;
-            printAnswersToFile(solutions);
-
-            generatedGraphs.clear();
-            graphsVariantsForFile.clear();
-            graphRepresentationPerAlg.clear();
-            solutions.clear();
-        }
-        System.out.println("\nОтлично. Варианты заданий и ответы на них успешно сохранены!");
-        updateStateToDefault();*/
     }
 
     private void makeCalculationAndSaveItToFile(List<String> solutions, AdjacencyListGraph graph, Integer algNumber){
@@ -136,6 +108,7 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
             case 4 -> GraphModelMapper.convertGeneratedGraphToKruskalGraph(generatedGraph);
             case 5 -> GraphModelMapper.convertGeneratedGraphToDijkstraGraph(generatedGraph);
             case 6 -> GraphModelMapper.convertGeneratedGraphToBiconnectedComponentsGraph(generatedGraph);
+            case 7 -> GraphModelMapper.convertGeneratedGraphToTopologicalSortGraph(generatedGraph);
             default -> null;
         };
     }
@@ -161,7 +134,11 @@ public class GraphCommandHandlerService implements IGraphCommandHandlerService {
                 taskIntroduction.append("списка смежности. Выполнить для него ");
             else
                 taskIntroduction.append("матрицы смежности. Выполнить для него ");
-            taskIntroduction.append(algNumberToAlgNameMap.get(algorithmNumber)).append(".\n\n");
+            taskIntroduction.append(algNumberToAlgNameMap.get(algorithmNumber)).append(".");
+            if(algorithmNumber == 7)
+                taskIntroduction.append(" В ходе Топологической сортировки при нескольких не посещенных соседях необходимо выбирать соседа с наименьшим значением.\n\n");
+            else
+                taskIntroduction.append("\n\n");
             writer.write(taskIntroduction.toString());
             writer.write(graph);
             writer.newLine();

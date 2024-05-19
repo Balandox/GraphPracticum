@@ -6,6 +6,7 @@ import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 import org.suai.graphGeneration.service.interfaces.IGraphGeneratorService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -103,6 +104,46 @@ public class GraphGeneratorService implements IGraphGeneratorService {
                 sb.append(String.format(format, "0"));
         }
         sb.append("\n");
+    }
+
+    // generate graph for Topological sorting
+    @Override
+    public AdjacencyListGraph generateAcyclicDirectedGraph(int amountOfVertex, boolean withWeights, int maxWeight){
+        int maxEdgesPerVertex = (random.nextInt(computeMaxEdges(amountOfVertex)) + 1) / amountOfVertex;
+        maxEdgesPerVertex++;
+        int amountOfEdges = 0;
+        List<List<GeneratedGraphElement>> adjacencyList = new ArrayList<>(amountOfVertex);
+        for (int i = 0; i < amountOfVertex; i++)
+            adjacencyList.add(new ArrayList<>());
+
+        // Создание списка вершин и их перемешивание для случайного порядка
+        List<Integer> vertices = new ArrayList<>();
+        for (int i = 0; i < amountOfVertex; i++) {
+            vertices.add(i);
+        }
+        Collections.shuffle(vertices);
+
+        // Добавление ребер с соблюдением порядка вершин для предотвращения циклов
+        for (int i = 0; i < amountOfVertex; i++) {
+            GeneratedGraphElement from = new GeneratedGraphElement(vertices.get(i));
+            //int from = vertices.get(i);
+            int edges = random.nextInt(maxEdgesPerVertex + 1); // Количество ребер для текущей вершины
+            for (int j = 0; j < edges; j++) {
+                if (i + 1 < amountOfVertex) {
+                    int toIndex = random.nextInt(amountOfVertex - i - 1) + i + 1;
+                    //int to = vertices.get(toIndex);
+                    GeneratedGraphElement to = new GeneratedGraphElement(vertices.get(toIndex));
+                    if (!adjacencyList.get(from.getVertex()).contains(to)) {
+                        adjacencyList.get(from.getVertex()).add(to);
+                        amountOfEdges++;
+                    }
+                }
+            }
+        }
+        for(List<GeneratedGraphElement> neighbor : adjacencyList)
+            neighbor.sort(GeneratedGraphElement::compareTo);
+        AdjacencyListGraph resultGraph = new AdjacencyListGraph(amountOfVertex, amountOfEdges, adjacencyList);
+        return resultGraph;
     }
 
     private int calculateMaxStringLengthOfMatrixElem(int amountOfVertex, int maxWeight){

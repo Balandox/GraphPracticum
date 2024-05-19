@@ -10,7 +10,7 @@ for example
 
 import java.util.Objects;
 
-public class GeneratedGraphElement {
+public class GeneratedGraphElement implements Comparable<GeneratedGraphElement>{
 
     private Integer vertex;
 
@@ -62,5 +62,10 @@ public class GeneratedGraphElement {
         if(this.weight != null)
             sb.append("(").append(this.weight).append(")");
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(GeneratedGraphElement o) {
+        return this.vertex - o.getVertex();
     }
 }

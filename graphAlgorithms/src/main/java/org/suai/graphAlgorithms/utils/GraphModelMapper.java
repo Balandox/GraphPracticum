@@ -1,12 +1,9 @@
 package org.suai.graphAlgorithms.utils;
 
-import org.suai.graphAlgorithms.model.BfsGraph;
-import org.suai.graphAlgorithms.model.BiconnectedComponentsGraph;
-import org.suai.graphAlgorithms.model.DfsGraph;
+import org.suai.graphAlgorithms.model.*;
 import org.suai.graphAlgorithms.model.dijkstra.DijkstraGraph;
 import org.suai.graphAlgorithms.model.kruskal.Edge;
 import org.suai.graphAlgorithms.model.kruskal.KruskalGraph;
-import org.suai.graphAlgorithms.model.PrimaGraph;
 import org.suai.graphGeneration.model.graphGenerated.AdjacencyListGraph;
 import org.suai.graphGeneration.model.graphGenerated.GeneratedGraphElement;
 
@@ -66,5 +63,8 @@ public class GraphModelMapper {
         return new BiconnectedComponentsGraph(sourceGraph);
     }
 
+    public static TopologicalSortGraph convertGeneratedGraphToTopologicalSortGraph(AdjacencyListGraph sourceGraph){
+        return new TopologicalSortGraph(sourceGraph);
+    }
 
 }
